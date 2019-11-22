@@ -1,24 +1,23 @@
-{% set name = "rcssmin" %}
 {% set version = "1.0.6" %}
-{% set sha256 = "ca87b695d3d7864157773a61263e5abb96006e9ff0e021eff90cbe0e1ba18270" %}
 
 package:
-  name: {{ name|lower }}
+  name: rcssmin
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.io/packages/source/r/rcssmin/rcssmin-{{ version }}.tar.gz
+  sha256: ca87b695d3d7864157773a61263e5abb96006e9ff0e021eff90cbe0e1ba18270
 
 build:
-  number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  number: 1
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
   build:
+    - {{ compiler('c') }}
+  host:
     - python
-    - setuptools
+    - pip
   run:
     - python
     - django >=1.8
