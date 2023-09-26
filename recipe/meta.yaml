@@ -1,36 +1,42 @@
-{% set version = "1.0.6" %}
+{% set name = "rcssmin" %}
+{% set version = "1.1.1" %}
 
 package:
-  name: rcssmin
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/r/rcssmin/rcssmin-{{ version }}.tar.gz
-  sha256: ca87b695d3d7864157773a61263e5abb96006e9ff0e021eff90cbe0e1ba18270
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/rcssmin-{{ version }}.tar.gz
+  sha256: 4f9400b4366d29f5f5446f58e78549afa8338e6a59740c73115e9f6ac413dc64
 
 build:
-  number: 5
-  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
 
 requirements:
   build:
     - {{ compiler('c') }}
   host:
-    - python
+    - python >=3.8
     - pip
   run:
-    - python
-    - django >=1.8
+    - python >=3.8
 
 test:
   imports:
     - rcssmin
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
   home: https://github.com/ndparker/rcssmin
-  license: Apache-2.0
-  license_family: Apache
-  license_file: LICENSE
+  license: Apache-2.0 AND BSD-3-Clause
+  license_file:
+    - LICENSE
+    - bench/LICENSE.cssmin
   summary: 'Fast CSS minifier for Python'
   description: |
     RCSSmin is a CSS minifier written in python. The minifier is based on the semantics of the YUI compressor, 
@@ -46,3 +52,4 @@ extra:
   recipe-maintainers:
     - cshaley
     - sannykr
+    - rxm7706
